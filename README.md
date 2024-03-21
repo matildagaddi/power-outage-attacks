@@ -19,6 +19,7 @@ This project will be exploring "How can we predict if a power outage was caused 
 
 ### Dataset Description
 observations: 1534
+
 revelant columns: 
 - CAUSE.CATEGORY : the cause of the outage (severe weather, intentional attack, etc.)
 - U.S.\_STATE : the name of the state the outage occured in
@@ -39,7 +40,7 @@ revelant columns:
 
 ## Cleaning and EDA
 ### Cleaned DataFrame
-The dataframe was loaded from an excel file using pandas' read_excel. Redudant and irrelevant columns and rows were dropped, for example, the observation number (1, 2, 3 ...).
+The dataframe was loaded from an excel file using pandas' read_excel method. Redudant and irrelevant columns and rows were dropped, for example, the observation number (1, 2, 3 ...).
 (head)
 
 ### Univariate Analysis
@@ -73,10 +74,10 @@ The dataset is heavily skewed. (Feel free to pan around and zoom in)
   frameborder="0"
 ></iframe>
 
-### Pivot Table
+### Aggregate Analysis
 Here we have the proportion of outages in each cause category by region:
 
-'| CLIMATE.REGION     |   equipment failure |   fuel supply emergency |   intentional attack |    islanding |   public appeal |   severe weather |   system operability disruption |\n|:-------------------|--------------------:|------------------------:|---------------------:|-------------:|----------------:|-----------------:|--------------------------------:|\n| Central            |           0.035     |              0.02       |            0.19      |   0.015      |       0.01      |         0.675    |                       0.055     |\n| East North Central |           0.0217391 |              0.0362319  |            0.144928  |   0.00724638 |       0.0144928 |         0.753623 |                       0.0217391 |\n| Northeast          |           0.0142857 |              0.04       |            0.385714  |   0.00285714 |       0.0114286 |         0.502857 |                       0.0428571 |\n| Northwest          |           0.0151515 |              0.00757576 |            0.674242  |   0.0378788  |       0.0151515 |         0.219697 |                       0.030303  |\n| South              |           0.0436681 |              0.0305677  |            0.122271  |   0.00873362 |       0.183406  |         0.49345  |                       0.117904  |\n| Southeast          |           0.0326797 |            nan          |            0.0588235 | nan          |       0.0326797 |         0.771242 |                       0.104575  |\n| Southwest          |           0.0543478 |              0.0217391  |            0.695652  |   0.0108696  |       0.0108696 |         0.108696 |                       0.0978261 |\n| West               |           0.0967742 |              0.078341   |            0.142857  |   0.129032   |       0.0414747 |         0.322581 |                       0.18894   |\n| West North Central |           0.0588235 |              0.0588235  |            0.235294  |   0.294118   |       0.117647  |         0.235294 |                     nan         |'
+f'| CLIMATE.REGION     |   equipment failure |   fuel supply emergency |   intentional attack |    islanding |   public appeal |   severe weather |   system operability disruption |\n|:-------------------|--------------------:|------------------------:|---------------------:|-------------:|----------------:|-----------------:|--------------------------------:|\n| Central            |           0.035     |              0.02       |            0.19      |   0.015      |       0.01      |         0.675    |                       0.055     |\n| East North Central |           0.0217391 |              0.0362319  |            0.144928  |   0.00724638 |       0.0144928 |         0.753623 |                       0.0217391 |\n| Northeast          |           0.0142857 |              0.04       |            0.385714  |   0.00285714 |       0.0114286 |         0.502857 |                       0.0428571 |\n| Northwest          |           0.0151515 |              0.00757576 |            0.674242  |   0.0378788  |       0.0151515 |         0.219697 |                       0.030303  |\n| South              |           0.0436681 |              0.0305677  |            0.122271  |   0.00873362 |       0.183406  |         0.49345  |                       0.117904  |\n| Southeast          |           0.0326797 |            nan          |            0.0588235 | nan          |       0.0326797 |         0.771242 |                       0.104575  |\n| Southwest          |           0.0543478 |              0.0217391  |            0.695652  |   0.0108696  |       0.0108696 |         0.108696 |                       0.0978261 |\n| West               |           0.0967742 |              0.078341   |            0.142857  |   0.129032   |       0.0414747 |         0.322581 |                       0.18894   |\n| West North Central |           0.0588235 |              0.0588235  |            0.235294  |   0.294118   |       0.117647  |         0.235294 |                     nan         |'
 
 
 ---
