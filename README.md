@@ -44,14 +44,14 @@ The dataframe was loaded from an excel file using pandas' read_excel. Redudant a
 
 ### Univariate Analysis
 <iframe
-  src="state_counts.html"
+  src="assets/state_counts.html"
   width="800"
   height="600"
   frameborder="0"
 ></iframe>
 
 <iframe
-  src="cause_counts.html"
+  src="assets/cause_counts.html"
   width="800"
   height="600"
   frameborder="0"
@@ -60,14 +60,14 @@ The dataframe was loaded from an excel file using pandas' read_excel. Redudant a
 ### Bivariate Anaylsis
 The dataset is heavily skewed. (Feel free to pan around and zoom in)
 <iframe
-  src="dur_cause_bar.html"
+  src="assets/dur_cause_bar.html"
   width="800"
   height="600"
   frameborder="0"
 ></iframe>
 
 <iframe
-  src="customer_vs_demand.html"
+  src="assets/customer_vs_demand.html"
   width="800"
   height="600"
   frameborder="0"
