@@ -41,7 +41,13 @@ revelant columns:
 ## Cleaning and EDA
 ### Cleaned DataFrame
 The dataframe was loaded from an excel file using pandas' read_excel method. Redudant and irrelevant columns and rows were dropped, for example, the observation number (1, 2, 3 ...).
-(head)
+
+<iframe
+  src="assets/df_head.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
 
 ### Univariate Analysis
 <iframe
@@ -50,6 +56,7 @@ The dataframe was loaded from an excel file using pandas' read_excel method. Red
   height="600"
   frameborder="0"
 ></iframe>
+Here we can see there is a disproportionate number of outages in California (210) and Texas (127). The number of outages by state seems like it coud be related to the size and population of the state.
 
 <iframe
   src="assets/cause_counts.html"
@@ -57,15 +64,17 @@ The dataframe was loaded from an excel file using pandas' read_excel method. Red
   height="600"
   frameborder="0"
 ></iframe>
+We can see severe weather makes up about half of total outages, followed by intentional attacks.
 
 ### Bivariate Anaylsis
-The dataset is heavily skewed. (Feel free to pan around and zoom in)
+
 <iframe
   src="assets/dur_cause_bar.html"
   width="800"
   height="600"
   frameborder="0"
 ></iframe>
+Here we can see the dataset is heavily skewed. Most causes other than severe weather have a majority of durations towards the relatively lower end of the scale. (Feel free to zoom in and pan around)
 
 <iframe
   src="assets/customer_vs_demand.html"
@@ -73,41 +82,70 @@ The dataset is heavily skewed. (Feel free to pan around and zoom in)
   height="600"
   frameborder="0"
 ></iframe>
+Here we can see there is a weak positive correlation between the demand loss of an outage and the number of customers affected.
 
 ### Aggregate Analysis
 Here we have the proportion of outages in each cause category by region:
 
-f'| CLIMATE.REGION     |   equipment failure |   fuel supply emergency |   intentional attack |    islanding |   public appeal |   severe weather |   system operability disruption |\n|:-------------------|--------------------:|------------------------:|---------------------:|-------------:|----------------:|-----------------:|--------------------------------:|\n| Central            |           0.035     |              0.02       |            0.19      |   0.015      |       0.01      |         0.675    |                       0.055     |\n| East North Central |           0.0217391 |              0.0362319  |            0.144928  |   0.00724638 |       0.0144928 |         0.753623 |                       0.0217391 |\n| Northeast          |           0.0142857 |              0.04       |            0.385714  |   0.00285714 |       0.0114286 |         0.502857 |                       0.0428571 |\n| Northwest          |           0.0151515 |              0.00757576 |            0.674242  |   0.0378788  |       0.0151515 |         0.219697 |                       0.030303  |\n| South              |           0.0436681 |              0.0305677  |            0.122271  |   0.00873362 |       0.183406  |         0.49345  |                       0.117904  |\n| Southeast          |           0.0326797 |            nan          |            0.0588235 | nan          |       0.0326797 |         0.771242 |                       0.104575  |\n| Southwest          |           0.0543478 |              0.0217391  |            0.695652  |   0.0108696  |       0.0108696 |         0.108696 |                       0.0978261 |\n| West               |           0.0967742 |              0.078341   |            0.142857  |   0.129032   |       0.0414747 |         0.322581 |                       0.18894   |\n| West North Central |           0.0588235 |              0.0588235  |            0.235294  |   0.294118   |       0.117647  |         0.235294 |                     nan         |'
-
+<iframe
+  src="assets/pivot_region_cause.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
+This chart helps us understand the distribution of outage causes across different regions. Since the distributions look different, region could be a good feature for a predictive model of cause.
 
 ---
 
 ## Assessment of Missingness
 
 ### NMAR Analysis
-DEMAND.LOSS.MW could be Not Missing At Random (NMAR) with the reasoning that if demand loss is very low, it is less likely to be reported and present in the dataset.
+DEMAND.LOSS.MW could be Not Missing At Random (NMAR) with the reasoning that if demand loss is very low, it is less likely to be reported and present in the dataset. It's missiningness might be explained with number of CUSTOMERS.AFFECTED, based on the correlation in the bivariate analysis, but it would make sense for these to both be NMAR. 
 
 ### Missingness Dependency (MAR Analysis)
 CUSTOMERS.AFFECTED has 443 missing values (29% of observations). This seems like an important piece of information so we would like to investigate whether it's missingness is dependent on other columns in this dataset. 
 
 We ran two permutation tests on #1 OUTAGE.DURATION and #2 RES.SALES as possible factors the CUSTOMERS.AFFECTED missingness could be dependent on.
 
-#1 Our test statistic was the difference in the means of OUTAGE.DURATION when CUSTOMERS.AFFECTED was missing and when it was not missing.
+#1 OUTAGE.DURATION
 
-[insert graph]
+<iframe
+  src="assets/miss_dist.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
+Here we can see the distribution of outage duration based on if customers affected is missing or not. They seem different enough that there may be a dependency here. Let's see with the permutation test.
 
-We chose a significance level of 0.05. We reject the null hypothesis that CUSTOMERS.AFFECTED is not dependent on OUTAGE.DURATION with a p-value of 0.0062.
+Our test statistic was the difference in the means of OUTAGE.DURATION when CUSTOMERS.AFFECTED was missing and when it was not missing.
 
-#2 Our test statistic was the difference in the means of RES.SALES when CUSTOMERS.AFFECTED was missing and when it was not missing.
+<iframe
+  src="assets/perm_out.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
+We chose a significance level of 0.05. We reject the null hypothesis that CUSTOMERS.AFFECTED is not dependent on OUTAGE.DURATION with a p-value of 0.0062. This leads us to believe it's missingness mechanism is Missing at Random (MAR) dependent on OUTAGE.DURATION.
 
-[insert graph]
+#2 RES.SALES
 
+Our test statistic was the difference in the means of RES.SALES when CUSTOMERS.AFFECTED was missing and when it was not missing.
+
+<iframe
+  src="assets/perm_sale.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
 We chose a significance level of 0.05. We fail to reject the null hypothesis that CUSTOMERS.AFFECTED is not dependent on RES.SALES with a p-value of 0.1298.
 
 These results make sense because one can reason that the shorter an outage lasts, the less likely many customers were affected, and so fewer values are reported. It is possible lower residential sales values mean fewer people would be affected by an outage, but the relationship doesn't seem as direct here.
 
+Interestingly, we found customers affected missingness could be dependent on outage duration, but not the other way around. Meaning duration missingness is likely not dependent on number of customers affected, with a p-value of 0.3874.
+
 ### Missing Value Imputation
-DEMAND.LOSS.MW had around 200 values at 0 already. It's missing values were imputed with 0 assuming that they are missing because the true values are an insignificant amount.
+Alaska and Hawaii both have the only missing values for CLIMATE.REGION, so they were filled with 'Non-Contiguous'
+TOTAL.PRICE, TOTAL.SALES, and ANOMALY.LEVEL were mean imputed since there were only 9-22 mssing values.
 
 
 ---
@@ -119,7 +157,6 @@ Null Hypothesis: the mean duration of power outages caused by severe weather is 
 Alternate Hypothesis: the mean duration of power outages caused by severe weather is greater than other causes combined. (mean severe - mean not-severe > 0)
 
 The test statistic we are using is the difference in means between severe-weather outage duration and not-severe-weather outage duration.
-
 
 We chose a significance level of 0.05 and the p-value is 0.0 so we reject the null hypthesis in favor of the alternative. 
 
@@ -165,7 +202,7 @@ The accuracy of this model is 87.76%, but more importantly it's F1 score is 0.79
 ---
 
 ## Fairness Testing
-We tested whether the model performs fairly on outages that occured in places with low vs high population (above and below 8769252 inhabitants, the median population in our dataset). Our evaluation metric was accuracy {{{[[[F1?]]]}}}.
+We tested whether the model performs fairly on outages that occured in places with low vs high population (above and below 8769252 inhabitants, the median population in our dataset). Our evaluation metric was accuracy.
 
 Null Hypothesis: The model has the same accuracy on cases with low populations and high populations.
 
