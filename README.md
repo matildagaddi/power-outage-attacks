@@ -161,7 +161,7 @@ Alternate Hypothesis: the distribution of NERC regions in terms of power outages
 
 The test statistic we are using is the total variation distance (TVD) between the distribution of NERC regions. The TVD is a useful statistic in this case because we want to quantify the difference in distributions between two categorical variables.
 
-We chose a significance level of 0.05 and the p-value is 0.0 so we reject the null hypothesis in favor of the alternative. These findings are useful for understanding which variables to use to predict the cause of an outage.
+We chose a significance level of 0.01, to be more certain of our conclusion, and the p-value is 0.0 so we reject the null hypothesis in favor of the alternative. These findings are useful for understanding which variables to use to predict the cause of an outage.
 
 
 ---
@@ -169,6 +169,7 @@ We chose a significance level of 0.05 and the p-value is 0.0 so we reject the nu
 ## Framing a Prediction Problem
 We'd like to predict whether an outage was caused by an intentional attack. We want to predict this variable because it can be useful for people to prepare adequate responses and solutions to an outage if they have reason to belive it was an attack vs. a different cause. We are using a random forest classifier for binary classifiation of the CAUSE.CATEGORY variable.
 We are using the F1 score as our metric because of the inbalance in classes (there are many more non-attack outages than attack outages).
+If an outage is occuring/has occured, we can use characteristics that are already known about the place the outage happened in order to more quickly try to predict if it was an attack or not.
 
 ---
 
@@ -179,7 +180,7 @@ For the models features we used NERC.REGION which is nominal so we one-hot-encod
 The accuracy of this model is 75.26%
 However the F1 score of this model is 0.492 which has lots of room to improve.
 
-This performance is not as bad as a constant prediction, but is not good because it doesn't improve much on a constant prediction and has a lot more room to be more accurate and have a higher F1 score.
+This performance is not as bad as a constant prediction, but is not good because it doesn't improve much on a constant prediction and has a lot more room to be more accurate and have a higher F1 score especially since we are doing binary classification (as opposed to multiclass). We want the model to be more reliable in this case where there is a lot of people and property at stake.
 
 ---
 
@@ -194,9 +195,9 @@ To improve on our baseline we added the following features:
 - COM.CUST.PCT
 - IND.CUST.PCT
 - U.S.\_STATE one-hot-encoded
-and kept the NERC.REGION and CLIMATE.REGION features
+- and kept the NERC.REGION and CLIMATE.REGION features
 
-We added these features because they help describe unique demographic and economic characteristics of the place the outage occured, and they include information we would have before knowing if an outage was definitely caused by an intentional attack. We believe these features improved the performance of the model because they cover a wider range of information about the cirumstances in which the outage took place and it is reasonable to see a relationship between suseptibility of attacks and whether the inhabitants or foreigners of the location are more likely to attack. This model includes 3 nominal features, and 8 quantitative features.
+We added these features because they help describe unique demographic and economic characteristics of the place the outage occured, and they include information we would have before knowing if an outage was definitely caused by an intentional attack. We believe these features improved the performance of the model because they cover a wider range of information about the cirumstances in which the outage took place, and it is reasonable to see a relationship between suseptibility of attacks and whether the inhabitants or foreigners of the location are more likely to attack. This model includes 3 nominal features, and 8 quantitative features.
 
 We used gridsearch with GridSearchCV from sklearn to find optimal hyperparameters for our model, which were found to be 16 for the maximum depth of the decision trees, and 2 for the minumum sample split. The RandomForestClassifier model was chosen due to its higher accuracy compared to other classifiers and that it is an ensemble model of many decision trees.
 
