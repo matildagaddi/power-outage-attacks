@@ -155,7 +155,7 @@ TOTAL.PRICE, TOTAL.SALES, and ANOMALY.LEVEL were mean imputed since there were o
 
 ## Hypothesis Testing
 
-Null Hypothesis: the distribution of North American Electric Reliability Corportation (NERC) regions in terms of power outages caused by an intentional attack is equal compared to other causes combined.
+Null Hypothesis: the distribution of North American Electric Reliability Corportation (NERC) regions in terms of power outages caused by an intentional attack is the same compared to other causes combined.
 
 Alternate Hypothesis: the distribution of NERC regions in terms of power outages caused by an intentional attack is different than other causes combined.
 
