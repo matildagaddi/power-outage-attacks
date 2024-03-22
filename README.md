@@ -40,14 +40,7 @@ revelant columns:
 
 ## Cleaning and EDA
 ### Cleaned DataFrame
-The dataframe was loaded from an excel file using pandas' read_excel method. Redudant and irrelevant columns and rows were dropped, for example, the observation number (1, 2, 3 ...).
-
-<iframe
-  src="assets/df_head.html"
-  width="800"
-  height="600"
-  frameborder="0"
-></iframe>
+The dataframe was loaded from an excel file using pandas' read_excel method. Redudant and irrelevant columns and rows were dropped. Here are the first few rows of the data:
 
 |    |   YEAR |   MONTH | U.S._STATE   | POSTAL.CODE   | NERC.REGION   | CLIMATE.REGION     |   ANOMALY.LEVEL | CLIMATE.CATEGORY   | OUTAGE.START.DATE   | OUTAGE.START.TIME   | OUTAGE.RESTORATION.DATE   | OUTAGE.RESTORATION.TIME   | CAUSE.CATEGORY     | CAUSE.CATEGORY.DETAIL   |   HURRICANE.NAMES |   OUTAGE.DURATION |   DEMAND.LOSS.MW |   CUSTOMERS.AFFECTED |   RES.PRICE |   COM.PRICE |   IND.PRICE |   TOTAL.PRICE |   RES.SALES |   COM.SALES |   IND.SALES |   TOTAL.SALES |   RES.PERCEN |   COM.PERCEN |   IND.PERCEN |   RES.CUSTOMERS |   COM.CUSTOMERS |   IND.CUSTOMERS |   TOTAL.CUSTOMERS |   RES.CUST.PCT |   COM.CUST.PCT |   IND.CUST.PCT |   PC.REALGSP.STATE |   PC.REALGSP.USA |   PC.REALGSP.REL |   PC.REALGSP.CHANGE |   UTIL.REALGSP |   TOTAL.REALGSP |   UTIL.CONTRI |   PI.UTIL.OFUSA |   POPULATION |   POPPCT_URBAN |   POPPCT_UC |   POPDEN_URBAN |   POPDEN_UC |   POPDEN_RURAL |   AREAPCT_URBAN |   AREAPCT_UC |   PCT_LAND |   PCT_WATER_TOT |   PCT_WATER_INLAND |
 |---:|-------:|--------:|:-------------|:--------------|:--------------|:-------------------|----------------:|:-------------------|:--------------------|:--------------------|:--------------------------|:--------------------------|:-------------------|:------------------------|------------------:|------------------:|-----------------:|---------------------:|------------:|------------:|------------:|--------------:|------------:|------------:|------------:|--------------:|-------------:|-------------:|-------------:|----------------:|----------------:|----------------:|------------------:|---------------:|---------------:|---------------:|-------------------:|-----------------:|-----------------:|--------------------:|---------------:|----------------:|--------------:|----------------:|-------------:|---------------:|------------:|---------------:|------------:|---------------:|----------------:|-------------:|-----------:|----------------:|-------------------:|
@@ -59,13 +52,13 @@ The dataframe was loaded from an excel file using pandas' read_excel method. Red
 
 
 ### Univariate Analysis
+Here we can see there is a disproportionate number of outages in California (210) and Texas (127). The number of outages by state seems like it coud be related to the size and population of the state.
 <iframe
   src="assets/state_counts.html"
   width="800"
   height="600"
   frameborder="0"
 ></iframe>
-Here we can see there is a disproportionate number of outages in California (210) and Texas (127). The number of outages by state seems like it coud be related to the size and population of the state.
 
 <iframe
   src="assets/cause_counts.html"
@@ -95,13 +88,6 @@ Here we can see there is a weak positive correlation between the demand loss of 
 
 ### Aggregate Analysis
 Here we have the proportion of outages in each cause category by region:
-
-<iframe
-  src="assets/pivot_region_cause.html"
-  width="800"
-  height="600"
-  frameborder="0"
-></iframe>
 
 | CLIMATE.REGION     |   equipment failure |   fuel supply emergency |   intentional attack |    islanding |   public appeal |   severe weather |   system operability disruption |
 |:-------------------|--------------------:|------------------------:|---------------------:|-------------:|----------------:|-----------------:|--------------------------------:|
@@ -174,13 +160,13 @@ TOTAL.PRICE, TOTAL.SALES, and ANOMALY.LEVEL were mean imputed since there were o
 
 ## Hypothesis Testing
 
-Null Hypothesis: the mean duration of power outages caused by severe weather is equal compared to other causes combined. (mean severe - mean not-severe = 0)
+Null Hypothesis: the distribution of North American Electric Reliability Corportation (NERC) regions in terms of power outages caused by an intentional attack is equal compared to other causes combined.
 
-Alternate Hypothesis: the mean duration of power outages caused by severe weather is greater than other causes combined. (mean severe - mean not-severe > 0)
+Alternate Hypothesis: the distribution of NERC regions in terms of power outages caused by an intentional attack is different than other causes combined.
 
-The test statistic we are using is the difference in means between severe-weather outage duration and not-severe-weather outage duration.
+The test statistic we are using is the total variation distance between the distribution of NERC regions. 
 
-We chose a significance level of 0.05 and the p-value is 0.0 so we reject the null hypthesis in favor of the alternative. 
+We chose a significance level of 0.05 and the p-value is 0.0 so we reject the null hypothesis in favor of the alternative. 
 
 
 ---
@@ -226,13 +212,13 @@ The accuracy of this model is 87.76%, but more importantly it's F1 score is 0.79
 ## Fairness Testing
 We tested whether the model performs fairly on outages that occured in places with low vs high population (above and below 8769252 inhabitants, the median population in our dataset). Our evaluation metric was accuracy.
 
-Null Hypothesis: The model has the same accuracy on cases with low populations and high populations.
+Null Hypothesis: The model has the same F1 score on cases with low populations and high populations.
 
-Alternative Hypothesis: The model has different accuracy on cases with low populations and high populations.
+Alternative Hypothesis: The model has different F1 score on cases with low populations and high populations.
 
 The test statistic we used for a permutation test was the absolute value of low population accuracy - high population accuracy.
 
-We chose a significance level of 0.05 and the p-value is 0.553, so we fail to reject the null hypothesis. We can be more confident that our model performs similarly on these two groups.
+We chose a significance level of 0.05 and the p-value is 0.0, so we reject the null hypothesis. Although the accuracy is similar between the two groups, the F1 score shows a discrepancy in the performance in terms of recall and precision. This is likely because there have been far more intentional attacks in low population places compared to high population places (326 vs 92).
 
 
 ---
