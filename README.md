@@ -39,7 +39,7 @@ revelant columns:
 
 ---
 
-## Cleaning and EDA
+## Cleaning and Exploratory Data Analysis
 ### Cleaned DataFrame
 The dataframe was loaded from an excel file using pandas' read_excel method. Redudant and irrelevant columns and rows were dropped. These steps allowed the data to be interpetable by a large number of tools for fast, complex analysis. Here are the first few rows of the data:
 
@@ -206,7 +206,7 @@ The accuracy of this model is 87.76%, but more importantly it's F1 score is 0.79
 ---
 
 ## Fairness Testing
-We tested whether the model performs fairly on outages that occured in places with low vs high population (above and below 8769252 inhabitants, the median population in our dataset). Our evaluation metric was accuracy.
+We tested whether the model performs fairly on outages that occured in places with low vs high population (above and below 8769252 inhabitants, the median population in our dataset). Our evaluation metric was the absolute difference in F1 scores.
 
 Null Hypothesis: Our model is fair. The model has roughly the same F1 score on cases with low populations and high populations. Any differences are due to random chance.
 
@@ -214,7 +214,7 @@ Alternative Hypothesis: Our model is unfair. The model has different F1 score on
 
 The test statistic we used for a permutation test was the absolute value of low population accuracy - high population accuracy.
 
-We chose a significance level of 0.05 and the p-value is 0.0, so we reject the null hypothesis. Although the accuracy is similar between the two groups, the F1 score shows a discrepancy in the performance in terms of recall and precision. This is likely because there have been far more intentional attacks in low population places compared to high population places (326 vs 92).
+We chose a significance level of 0.05 and the p-value is 0.0, so we reject the null hypothesis. Although the accuracy is similar between the two groups, the F1 score shows a discrepancy in the performance in terms of recall and precision. This is likely because there have been far more intentional attacks in low population places compared to high population places (326 vs 92) in our dataset.
 
 
 ---
