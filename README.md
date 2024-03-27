@@ -206,13 +206,11 @@ The accuracy of this model is 87.76%, but more importantly it's F1 score is 0.79
 ---
 
 ## Fairness Testing
-We tested whether the model performs fairly on outages that occured in places with low vs high population (above and below 8769252 inhabitants, the median population in our dataset). Our evaluation metric was the absolute difference in F1 scores.
+We tested whether the model performs fairly on outages that occured in places with high vs low population (above and below 8769252 inhabitants, the median population in our dataset). Our evaluation metric for the permuation test was the absolute difference in F1 scores.
 
 Null Hypothesis: Our model is fair. The model has roughly the same F1 score on cases with low populations and high populations. Any differences are due to random chance.
 
-Alternative Hypothesis: Our model is unfair. The model has different F1 score on cases with low populations and high populations.
-
-The test statistic we used for a permutation test was the absolute value of low population accuracy - high population accuracy.
+Alternative Hypothesis: Our model is unfair. The model has different F1 scores on cases with low populations and high populations.
 
 We chose a significance level of 0.05 and the p-value is 0.0, so we reject the null hypothesis. Although the accuracy is similar between the two groups, the F1 score shows a discrepancy in the performance in terms of recall and precision. This is likely because there have been far more intentional attacks in low population places compared to high population places (326 vs 92) in our dataset.
 
