@@ -205,6 +205,8 @@ The accuracy of this model is 87.76%, but more importantly it's F1 score is 0.79
 
 <iframe
   src="assets/final_conf_mtx.png"
+  width="400"
+  height="400"
   frameborder="0"
 ></iframe>
 
