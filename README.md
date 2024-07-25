@@ -124,8 +124,7 @@ Here I can see the distribution of outage duration based on if customers affecte
 Our test statistic was the difference in the means of OUTAGE.DURATION when CUSTOMERS.AFFECTED was missing and when it was not missing.
 <iframe
   src="assets/perm_out.html"
-  width="800"
-  height="600"
+  width="600"
   frameborder="0"
 ></iframe>
 I chose a significance level of 0.05. I reject the null hypothesis that CUSTOMERS.AFFECTED is not dependent on OUTAGE.DURATION with a p-value of 0.0062. This leads us to believe it's missingness mechanism could be Missing at Random (MAR), dependent on OUTAGE.DURATION.
@@ -136,8 +135,7 @@ Our test statistic was the difference in the means of RES.SALES when CUSTOMERS.A
 
 <iframe
   src="assets/perm_sale.html"
-  width="800"
-  height="600"
+  width="600"
   frameborder="0"
 ></iframe>
 I chose a significance level of 0.05. I fail to reject the null hypothesis that CUSTOMERS.AFFECTED is not dependent on RES.SALES with a p-value of 0.1298.
