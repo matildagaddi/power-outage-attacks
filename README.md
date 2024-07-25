@@ -203,12 +203,11 @@ I used gridsearch with GridSearchCV from sklearn to find optimal hyperparameters
 
 The accuracy of this model is 87.76%, but more importantly it's F1 score is 0.791 which are both great improvements from the baseline (12.5% and 0.299 increases respectively).
 
-<iframe
+<img
   src="assets/final_conf_mtx.jpg"
-  width=200px
-  height=auto
+  width="200"
   frameborder="0"
-></iframe>
+></img>
 
 ---
 
